@@ -1,11 +1,17 @@
 package com.blog.blog.models;
 
+import java.security.PublicKey;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import com.blog.blog.enums.RoleEnum;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
@@ -75,6 +81,39 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities(){
+        if (this.role == RoleEnum.ADMIN){
+            return List.of(
+                new SimpleGrantedAuthority("ROLE_ADIMIN"),
+                new SimpleGrantedAuthority("ROLE_USER")
+            );
+        }
+        return List.of(
+            new SimpleGrantedAuthority("ROLE_USER")
+        );
+    }
+
+    @Override
+    public boolean isAccountNonExpired(){
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked(){
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialNonExpired(){
+        return true;
+    }
+
+    @Override
+    public boolean isEnable(){
+        return true;
     }
 }
 

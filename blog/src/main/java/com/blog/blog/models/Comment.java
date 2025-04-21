@@ -13,10 +13,10 @@ public class Comment {
     private String comment;
     private Date date;
 
-    @OneToOne
+    @ManyToOne
     private Post postId;
 
-    @OneToOne
+    @ManyToOne
     private User userId;
 
     public Comment() {
