@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+ blog/src/test/java/com/blog/blog/config/SecurityFilterTest.java
+
